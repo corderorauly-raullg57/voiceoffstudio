@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VoiceOFF Studio — Locuciones profesionales en español, gratis y sin internet</title>
+<meta name="description" content="Convierte cualquier texto en una locución profesional en español. Voces neuronales, emociones, música libre de derechos y exportación WAV/MP3. 100% gratis y sin internet.">
+<meta property="og:title" content="VoiceOFF Studio — Locuciones en español gratis y sin internet">
+<meta property="og:description" content="Voces neuronales en español, emociones, música y exportación MP3. Gratis, sin registro y sin marca de agua.">
+<meta property="og:image" content="banner-voiceoff.jpg">
+<meta name="theme-color" content="#0a0c0f">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f2a33a'/%3E%3Cpath d='M7 13v6M11 9v14M16 6v20M21 10v12M25 14v4' stroke='%231c1204' stroke-width='2.6' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0a0c0f; --bg2:#0e1116; --surface:#12161c; --raise:#1a1f27; --line:#232931; --line2:#2f3640;
+  --txt:#efeae2; --mut:#959ba5; --dim:#646a74;
+  --acc:#f2a33a; --acc2:#ffc46b; --accInk:#1c1204; --accSoft:rgba(242,163,58,.12);
+  --rcg:#7b7cf6; --rcg2:#22c3dd; --rcgSoft:rgba(123,124,246,.12);
+  --ok:#43cf8b; --wa:#25d366;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,"Cascadia Mono","Segoe UI Mono",Consolas,monospace;
+  --w:1180px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;height:auto;display:block}
+.wrap{max-width:var(--w);margin:0 auto;padding:0 20px}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+svg.i{width:20px;height:20px;flex:none}
+
+/* nav */
+.nav{position:sticky;top:0;z-index:50;background:rgba(10,12,15,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:22px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:750;font-size:17px;text-decoration:none;white-space:nowrap}
+.logo{width:32px;height:32px;border-radius:9px;background:var(--acc);display:grid;place-items:center;color:var(--accInk)}
+.brand small{color:var(--mut);font-weight:500;font-size:13px}
+.links{display:flex;gap:22px;margin-left:auto}
+.links a{text-decoration:none;color:var(--mut);font-size:14px;font-weight:550}
+.links a:hover{color:var(--txt)}
+@media(max-width:860px){.links{display:none}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:13px 22px;border-radius:11px;font-weight:700;font-size:15.5px;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .12s,background .15s,border-color .15s;white-space:nowrap}
+.btn:active{transform:translateY(1px)}
+.btn.p{background:var(--acc);color:var(--accInk)}
+.btn.p:hover{background:var(--acc2)}
+.btn.g{background:var(--raise);border-color:var(--line2)}
+.btn.g:hover{border-color:#47505c}
+.btn.wa{background:var(--wa);color:#04210f}
+.btn.wa:hover{filter:brightness(1.08)}
+.btn.rcg{background:linear-gradient(135deg,var(--rcg),var(--rcg2));color:#fff}
+.btn.rcg:hover{filter:brightness(1.1)}
+.btn.sm{padding:9px 15px;font-size:14px}
+.btn.lg{padding:16px 28px;font-size:17px}
+
+/* hero */
+.hero{padding:72px 0 40px;position:relative}
+.hero:before{content:"";position:absolute;inset:-120px 0 auto;height:600px;background:radial-gradient(600px 300px at 20% 30%,rgba(242,163,58,.13),transparent 70%),radial-gradient(500px 260px at 85% 10%,rgba(123,124,246,.10),transparent 70%);pointer-events:none}
+.hero .wrap.top{position:relative;display:grid;grid-template-columns:1.02fr 1fr;gap:48px;align-items:center}
+@media(max-width:960px){.hero .wrap.top{grid-template-columns:1fr}.hero{padding-top:44px}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:650;color:var(--acc2);background:var(--accSoft);border:1px solid rgba(242,163,58,.3);padding:6px 12px;border-radius:999px}
+.eyebrow b{color:var(--accInk);background:var(--acc);border-radius:999px;padding:1px 8px;font-size:11.5px}
+h1{font-size:clamp(34px,5.2vw,58px);line-height:1.04;letter-spacing:-.025em;margin:18px 0 18px;font-weight:820}
+h1 em{font-style:normal;color:var(--acc)}
+.lead{font-size:clamp(17px,1.6vw,19.5px);color:var(--mut);max-width:560px;margin:0 0 26px}
+.lead b{color:var(--txt);font-weight:600}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.ticks{display:flex;gap:8px 18px;flex-wrap:wrap;margin-top:22px;color:var(--mut);font-size:14px}
+.ticks span{display:flex;align-items:center;gap:6px}
+.ticks svg{color:var(--ok);width:17px;height:17px}
+.shot{position:relative;border-radius:16px;border:1px solid var(--line2);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.55),0 0 0 6px rgba(255,255,255,.02)}
+.shot img{width:100%}
+.shot .tag{position:absolute;left:14px;bottom:14px;background:rgba(10,12,15,.85);backdrop-filter:blur(6px);border:1px solid var(--line2);border-radius:10px;padding:8px 12px;font-size:13px;display:flex;align-items:center;gap:8px}
+.live{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(67,207,139,.18)}
+
+/* demo player */
+.demo{margin-top:34px;display:flex;align-items:center;gap:16px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;max-width:560px}
+.demo .pl{width:54px;height:54px;border-radius:50%;border:0;background:var(--acc);color:var(--accInk);display:grid;place-items:center;cursor:pointer;flex:none}
+.demo .pl:hover{background:var(--acc2)}
+.demo .pl svg{width:22px;height:22px}
+.demo .meta{flex:1;min-width:0}
+.demo .meta b{display:block;font-size:14.5px}
+.demo .meta span{font-size:12.5px;color:var(--mut)}
+.bars{display:flex;align-items:center;gap:3px;height:30px;margin-top:6px}
+.bars i{flex:1;max-width:5px;background:var(--line2);border-radius:2px;height:20%;transition:background .2s}
+.bars i.on{background:var(--acc)}
+.demo .t{font-family:var(--mono);font-size:13px;color:var(--mut);flex:none}
+
+/* sections */
+section{padding:86px 0}
+.alt{background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kick{font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--acc)}
+h2{font-size:clamp(28px,3.6vw,42px);line-height:1.1;letter-spacing:-.02em;margin:10px 0 14px;font-weight:800}
+.sub{color:var(--mut);font-size:17.5px;max-width:640px;margin:0}
+.head{margin-bottom:44px}
+.head.c{text-align:center}.head.c .sub{margin:0 auto}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:50px}
+.stats div{background:var(--surface);padding:22px 20px}
+.stats b{display:block;font-size:30px;font-weight:800;letter-spacing:-.02em}
+.stats span{color:var(--mut);font-size:14px}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+
+/* features */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:960px){.grid3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.grid3{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--line2);transform:translateY(-3px)}
+.ic{width:44px;height:44px;border-radius:12px;background:var(--accSoft);color:var(--acc);display:grid;place-items:center;margin-bottom:16px}
+.ic svg{width:22px;height:22px}
+.card h3{margin:0 0 8px;font-size:18px;font-weight:700}
+.card p{margin:0;color:var(--mut);font-size:15px}
+
+/* emotions strip */
+.emos{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.emos span{border:1px solid var(--line2);background:var(--surface);border-radius:999px;padding:7px 14px;font-size:14px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;counter-reset:s}
+@media(max-width:860px){.steps{grid-template-columns:1fr}}
+.step{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:26px 24px 24px}
+.step:before{counter-increment:s;content:counter(s);position:absolute;top:22px;right:22px;font:800 44px/1 var(--sans);color:var(--line2)}
+.step h3{margin:0 0 8px;font-size:18px}
+.step p{margin:0;color:var(--mut);font-size:15px;max-width:90%}
+
+/* voices table */
+.voices{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.voices th,.voices td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line);font-size:15px}
+.voices th{font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);font-weight:650;background:var(--bg2)}
+.voices tr:last-child td{border-bottom:0}
+.voices td b{font-weight:700}
+.pill{font-size:12px;border-radius:999px;padding:2px 9px;border:1px solid var(--line2);color:var(--mut);white-space:nowrap}
+.pill.hi{color:var(--acc2);border-color:rgba(242,163,58,.4)}
+.tw{overflow-x:auto;border-radius:16px}
+@media(max-width:620px){.voices .hide{display:none}.voices th,.voices td{padding:12px}}
+
+/* RCG */
+.rcg{position:relative;overflow:hidden}
+.rcg:before{content:"";position:absolute;inset:0;background:radial-gradient(700px 360px at 80% 20%,rgba(123,124,246,.16),transparent 70%),radial-gradient(500px 300px at 10% 90%,rgba(34,195,221,.10),transparent 70%);pointer-events:none}
+.rcg .wrap{position:relative}
+.rcg .kick{color:var(--rcg2)}
+.flow{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:6px 0 40px}
+.flow .node{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line2);border-radius:12px;padding:10px 14px;font-weight:650;font-size:15px}
+.flow .node i{font-style:normal;width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:14px}
+.flow .arrow{color:var(--dim);font-size:20px}
+.rgrid{display:grid;grid-template-columns:1.05fr 1fr;gap:28px;align-items:stretch}
+@media(max-width:960px){.rgrid{grid-template-columns:1fr}}
+.rfeat{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.rfeat{grid-template-columns:1fr}}
+.rfeat div{background:rgba(18,22,28,.8);border:1px solid var(--line);border-radius:14px;padding:18px}
+.rfeat h4{margin:0 0 6px;font-size:16px;display:flex;align-items:center;gap:9px}
+.rfeat h4 svg{color:var(--rcg2)}
+.rfeat p{margin:0;color:var(--mut);font-size:14.5px}
+.offer{background:linear-gradient(180deg,rgba(123,124,246,.12),rgba(18,22,28,.9));border:1px solid rgba(123,124,246,.45);border-radius:20px;padding:28px;display:flex;flex-direction:column}
+.offer .badge{align-self:flex-start;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;font-weight:800;font-size:12px;letter-spacing:.06em;padding:5px 12px;border-radius:999px}
+.offer h3{font-size:26px;margin:16px 0 4px;letter-spacing:-.01em}
+.offer .old{color:var(--dim);text-decoration:line-through;font-size:20px;font-weight:600}
+.offer .price{font-size:56px;font-weight:850;letter-spacing:-.03em;line-height:1;margin:6px 0 4px}
+.offer .price small{font-size:20px;color:var(--mut);font-weight:600}
+.offer ul{list-style:none;padding:0;margin:18px 0 22px;display:grid;gap:9px}
+.offer li{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.offer li svg{color:var(--ok);margin-top:3px;width:17px;height:17px}
+.offer .note{font-size:13.5px;color:var(--mut);margin-top:12px;text-align:center}
+.offer .note b{color:var(--txt)}
+.mock{margin-top:22px;background:#0b0d12;border:1px solid var(--line);border-radius:14px;padding:12px}
+.mock .scr{height:120px;border-radius:9px;background:linear-gradient(135deg,#1d1f3b,#123a44);position:relative;overflow:hidden}
+.mock .scr span{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);background:rgba(0,0,0,.6);padding:4px 10px;border-radius:6px;font-size:13px;font-weight:600;white-space:nowrap}
+.mock .trk{display:grid;gap:5px;margin-top:10px}
+.mock .trk div{height:16px;border-radius:5px;display:flex;gap:4px}
+.mock .trk i{border-radius:4px;display:block}
+
+/* imágenes */
+.shot.banner{border-radius:18px}
+.real{margin:0 0 34px}
+.real figcaption{display:flex;align-items:center;gap:9px;justify-content:center;color:var(--mut);font-size:14px;margin-top:14px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+.duo.vz{grid-template-columns:1.25fr .9fr}
+.pic{width:100%;border-radius:18px;border:1px solid var(--line2);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.steps.v{grid-template-columns:1fr}
+.voices td:nth-child(2),.voices td:nth-child(3){white-space:nowrap}
+.hint2{color:var(--dim);font-size:13.5px;margin:12px 4px 0}
+@media(max-width:960px){.duo,.duo.vz{grid-template-columns:1fr}.duo .pic{max-width:520px;margin:0 auto}}
+/* faq */
+.faq{max-width:820px;margin:0 auto}
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:0 20px;margin-bottom:10px}
+details[open]{border-color:var(--line2)}
+summary{cursor:pointer;list-style:none;padding:18px 0;font-weight:650;font-size:16.5px;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";color:var(--acc);font-size:22px;line-height:1;transition:transform .2s}
+details[open] summary:after{transform:rotate(45deg)}
+details p{margin:0 0 18px;color:var(--mut);font-size:15.5px}
+
+/* download */
+.dl{text-align:center}
+.dlbox{max-width:760px;margin:0 auto;background:var(--surface);border:1px solid var(--line2);border-radius:22px;padding:40px 28px;position:relative;overflow:hidden}
+.dlbox:before{content:"";position:absolute;inset:0;background:radial-gradient(500px 220px at 50% 0%,rgba(242,163,58,.14),transparent 70%);pointer-events:none}
+.dlbox>*{position:relative}
+.dlbox .ctas{justify-content:center;margin-top:26px}
+.req{display:flex;justify-content:center;gap:10px 22px;flex-wrap:wrap;margin-top:22px;font-size:13.5px;color:var(--mut)}
+
+footer{border-top:1px solid var(--line);padding:36px 0 46px;color:var(--dim);font-size:13.5px}
+footer .wrap{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap}
+footer a{color:var(--mut)}
+
+/* floating whatsapp */
+.fwa{position:fixed;right:18px;bottom:18px;z-index:60;width:56px;height:56px;border-radius:50%;background:var(--wa);display:grid;place-items:center;box-shadow:0 10px 30px rgba(0,0,0,.4);color:#04210f}
+.fwa svg{width:28px;height:28px}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .6s,transform .6s}
+.reveal.vis{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<!-- ====== AJUSTES RÁPIDOS: cambia aquí tus enlaces ====== -->
+<script>
+window.CONFIG = {
+  descarga: '',                 // ← Pega aquí el enlace de Mega del .zip de VoiceOFF. Si lo dejas vacío, el botón abre WhatsApp.
+  whatsapp: '5355081288',       // ← Tu número (con código de país, sin + ni espacios)
+  editorRCG: ''                 // ← Enlace a la página de Editor RCG (opcional). Vacío = abre WhatsApp.
+};
+</script>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="#">
+      <span class="logo"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 10v4M8 7v10M12 4v16M16 8v8M20 11v2"/></svg></span>
+      VoiceOFF <small>Studio</small>
+    </a>
+    <div class="links">
+      <a href="#funciones">Funciones</a>
+      <a href="#voces">Voces</a>
+      <a href="#como">Cómo funciona</a>
+      <a href="#editor-rcg">Editor RCG</a>
+      <a href="#faq">Preguntas</a>
+    </div>
+    <a class="btn p sm js-descarga" href="#descargar">Descargar gratis</a>
+  </div>
+</nav>
+
+<!-- ====== HERO ====== -->
+<header class="hero">
+  <div class="wrap top">
+    <div>
+      <span class="eyebrow"><b>GRATIS</b> Sin registro · sin marca de agua · sin internet</span>
+      <h1>Tu locutor profesional en español, <em>gratis y sin internet</em>.</h1>
+      <p class="lead">Escribe un texto y en segundos tienes una <b>locución lista para anuncios, vídeos, podcasts o cuñas de radio</b>. Voces neuronales naturales, emociones, música de fondo y exportación a MP3.</p>
+      <div class="ctas">
+        <a class="btn p lg js-descarga" href="#descargar">
+          <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+          Descargar VoiceOFF gratis
+        </a>
+        <a class="btn g lg" href="#muestra">▶ Escuchar una muestra</a>
+      </div>
+      <div class="ticks">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Funciona sin internet</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Uso comercial permitido</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Windows, Mac y Linux</span>
+      </div>
+
+      <div class="demo" id="muestra">
+        <button class="pl" id="demoBtn" aria-label="Reproducir muestra"><svg id="demoIco" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg></button>
+        <div class="meta">
+          <b>Muestra real · Voz Daniela 🇦🇷 con música corporativa</b>
+          <span>Generada con VoiceOFF en segundos, sin internet</span>
+          <div class="bars" id="bars"></div>
+        </div>
+        <span class="t" id="demoT">00:19</span>
+        <audio id="demoAudio" src="muestra-voiceoff.mp3" preload="none"></audio>
+      </div>
+    </div>
+
+    <div class="shot banner reveal">
+      <img src="banner-voiceoff.jpg" alt="VoiceOFF Studio: convierte tus textos en locuciones profesionales en español" width="1254" height="623" loading="eager">
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="stats reveal">
+      <div><b class="num">6</b><span>voces neuronales en español</span></div>
+      <div><b class="num">8</b><span>emociones con un clic</span></div>
+      <div><b class="num">7</b><span>músicas libres de derechos</span></div>
+      <div><b class="num">0</b><span>conexión necesaria para trabajar</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ====== FUNCIONES ====== -->
+<section id="funciones" class="alt">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="kick">Funciones</div>
+      <h2>Un estudio de grabación completo en un solo archivo</h2>
+      <p class="sub">Sin micrófono, sin cabina y sin pagar a un locutor. Todo pasa en tu computadora, así que tus textos nunca salen de ella.</p>
+    </div>
+    <figure class="real reveal">
+      <div class="shot"><img src="voiceoff-app.png" alt="Pantalla real de VoiceOFF Studio generando una locución de noticiero" width="1440" height="860" loading="lazy"></div>
+      <figcaption><span class="live"></span> Captura real de la app generando una locución de noticiero, sin internet</figcaption>
+    </figure>
+    <div class="grid3">
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a3 3 0 00-3 3v6a3 3 0 006 0V6a3 3 0 00-3-3z"/><path d="M19 11a7 7 0 01-14 0M12 18v3"/></svg></div><h3>Voces que suenan humanas</h3><p>Voces neuronales de España, México y Argentina, que pronuncian bien el español, con sus acentos y entonación.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5s1.3 1.8 3.5 1.8 3.5-1.8 3.5-1.8M9 9.5h.01M15 9.5h.01"/></svg></div><h3>Emociones con un clic</h3><p>Alegre, cálida, épica, de noticiero, susurro… Cada emoción ajusta sola la velocidad, el tono, las pausas y la sala.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div><h3>Música de fondo incluida</h3><p>7 estilos generados al momento y libres de derechos. La música baja sola cuando se habla, como en la radio profesional.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div><h3>Diálogos con varias voces</h3><p>Divide el guion en secciones y dale a cada una una voz distinta: perfecto para cuñas con dos locutores o podcasts.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg></div><h3>Sonido de estudio</h3><p>Ecualizador, reverberación, eco, compresor y limitador profesionales. Tu audio sale fuerte, limpio y sin saturar.</p></div>
+      <div class="card reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></div><h3>Exporta en MP3 o WAV</h3><p>MP3 liviano para WhatsApp y redes, o WAV sin pérdida para editar vídeo. Historial de tus últimos audios incluido.</p></div>
+    </div>
+    <div class="emos reveal">
+      <span>🙂 Neutral</span><span>😄 Alegre</span><span>😔 Triste</span><span>😠 Enojado</span><span>🤫 Susurro</span><span>🏔️ Épico</span><span>📻 Noticia</span><span>🤗 Cálido</span>
+    </div>
+  </div>
+</section>
+
+<!-- ====== CÓMO FUNCIONA ====== -->
+<section id="como">
+  <div class="wrap">
+    <div class="head c reveal">
+      <div class="kick">Cómo funciona</div>
+      <h2>De texto a locución en menos de un minuto</h2>
+      <p class="sub">Descomprime, abre y trabaja. No hay que instalar programas ni crear cuentas.</p>
+    </div>
+    <div class="duo">
+    <img class="pic reveal" src="pasos-voiceoff.jpg" alt="De texto a voz en pocos pasos con VoiceOFF Studio" width="605" height="590" loading="lazy">
+    <div class="steps v">
+      <div class="step reveal"><h3>Escribe o pega tu texto</h3><p>Un anuncio, un guion de vídeo, un cuento o una noticia. La app calcula sola cuánto va a durar.</p></div>
+      <div class="step reveal"><h3>Elige voz, emoción y música</h3><p>Escúchalo al instante y retoca la velocidad, el tono o las pausas hasta que suene como quieres.</p></div>
+      <div class="step reveal"><h3>Exporta y úsalo</h3><p>Descarga tu MP3 o WAV y úsalo en tu vídeo, en tu estado de WhatsApp o en el anuncio de tu cliente.</p></div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== VOCES ====== -->
+<section id="voces" class="alt">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="kick">Voces</div>
+      <h2>Acentos de España y Latinoamérica</h2>
+      <p class="sub">VoiceOFF viene con una voz lista para usar. Las demás se descargan una vez desde la propia app y quedan guardadas para trabajar sin conexión.</p>
+    </div>
+    <div class="duo vz">
+    <div class="tw reveal">
+      <table class="voices">
+        <thead><tr><th>Voz</th><th>Acento</th><th>Tipo</th><th>Calidad</th><th class="hide">Ideal para</th></tr></thead>
+        <tbody>
+          <tr><td><b>Daniela</b></td><td>🇦🇷 Argentina</td><td>♀ Mujer</td><td><span class="pill hi">Alta</span></td><td class="hide">Narración, publicidad y contenido cercano</td></tr>
+          <tr><td><b>Claude</b></td><td>🇲🇽 México</td><td>♀ Mujer</td><td><span class="pill hi">Alta</span></td><td class="hide">Anuncios y redes para Latinoamérica</td></tr>
+          <tr><td><b>Dave</b></td><td>🇪🇸 España</td><td>♂ Hombre</td><td><span class="pill">Media</span></td><td class="hide">Tutoriales y presentaciones</td></tr>
+          <tr><td><b>Ald</b></td><td>🇲🇽 México</td><td>♂ Hombre</td><td><span class="pill">Media</span></td><td class="hide">Locución comercial</td></tr>
+          <tr><td><b>Sharvard</b></td><td>🇪🇸 España</td><td>♂♀ Ambos</td><td><span class="pill">Media</span></td><td class="hide">Diálogos hombre y mujer</td></tr>
+          <tr><td><b>Carl</b> <span class="pill">incluida</span></td><td>🇪🇸 España</td><td>♂ Hombre</td><td><span class="pill">Ligera</span></td><td class="hide">Borradores rápidos, equipos modestos</td></tr>
+        </tbody>
+      </table>
+      <p class="hint2">Escucha cada voz con el botón ▶ de la Biblioteca antes de elegir.</p>
+    </div>
+    <img class="pic reveal" src="voces-voiceoff.jpg" alt="6 voces en español de España, México y Argentina" width="594" height="591" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ====== EDITOR RCG ====== -->
+<section id="editor-rcg" class="rcg">
+  <div class="wrap">
+    <div class="head reveal">
+      <div class="kick">El siguiente paso</div>
+      <h2>Ya tienes la voz. Ahora conviértela en un vídeo que vende.</h2>
+      <p class="sub">Tu locución brilla de verdad en un vídeo con imágenes, transiciones y subtítulos. Para eso creé <b style="color:var(--txt)">Editor RCG</b>, el compañero perfecto de VoiceOFF.</p>
+    </div>
+
+    <div class="flow reveal">
+      <div class="node"><i style="background:var(--accSoft);color:var(--acc)">🎙️</i>VoiceOFF · tu locución</div>
+      <span class="arrow">→</span>
+      <div class="node"><i style="background:var(--rcgSoft);color:var(--rcg)">🎬</i>Editor RCG · tu vídeo</div>
+      <span class="arrow">→</span>
+      <div class="node"><i style="background:rgba(67,207,139,.12);color:var(--ok)">🚀</i>Listo para redes y clientes</div>
+    </div>
+
+    <div class="rgrid">
+      <div class="reveal">
+        <div class="rfeat">
+          <div><h4><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.12 15.88M14.47 14.48L20 20M8.12 8.12L12 12"/></svg>Corta y une clips</h4><p>Línea de tiempo intuitiva: arrastra, corta, divide y ajusta en segundos.</p></div>
+          <div><h4><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M7 15h4M15 15h2M7 11h2M13 11h4"/></svg>Subtítulos con IA</h4><p>Subtítulos automáticos con Whisper, sincronizados con tu locución y con tu estilo.</p></div>
+          <div><h4><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>Transiciones de cine</h4><p>Efectos profesionales entre clips para que tu vídeo no parezca casero.</p></div>
+          <div><h4><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>Audio y música</h4><p>Mezcla tu voz de VoiceOFF con música, ajusta volúmenes y fundidos.</p></div>
+          <div><h4><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Exporta hasta 4K</h4><p>720p, 1080p o 4K en H264/AAC, compatible con cualquier red social.</p></div>
+          <div><h4><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>100% local y privado</h4><p>Como VoiceOFF: todo en tu equipo, sin subir tus vídeos a ningún servidor.</p></div>
+        </div>
+        <div class="mock" aria-hidden="true">
+          <div class="scr"><span>Tu negocio, contado con tu propia voz</span></div>
+          <div class="trk">
+            <div><i style="flex:3;background:#3b3f86"></i><i style="flex:2;background:#2f5f86"></i><i style="flex:4;background:#3b3f86"></i><i style="flex:2;background:#2f5f86"></i></div>
+            <div><i style="flex:11;background:linear-gradient(90deg,rgba(242,163,58,.75),rgba(242,163,58,.45))"></i></div>
+            <div><i style="flex:2;background:#20434b"></i><i style="flex:3;background:#20434b"></i><i style="flex:2;background:#20434b"></i><i style="flex:3;background:#20434b"></i></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="offer reveal">
+        <span class="badge">OFERTA DE LANZAMIENTO</span>
+        <h3>Editor RCG v8.2</h3>
+        <div class="old">$99.99 USD</div>
+        <div class="price">$49.99 <small>USD</small></div>
+        <div style="color:var(--acc2);font-weight:700;font-size:14.5px">🔥 Solo para las primeras 10 personas</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><span><b>Licencia vitalicia</b>: un solo pago, para siempre</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><span>Todas las funciones Pro y actualizaciones gratis</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><span>Modelos de IA ya incluidos: sin descargas extra</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><span>Tutorial personalizado y soporte por WhatsApp</span></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg><span>Pago por QvaPay o Transfermóvil</span></li>
+        </ul>
+        <a class="btn rcg lg js-rcg" href="#" style="margin-top:auto">🎁 Probar Editor RCG 3 días gratis</a>
+        <p class="note">Escríbeme <b>"Vengo de VoiceOFF"</b> y te activo la prueba al momento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== FAQ ====== -->
+<section id="faq" class="alt">
+  <div class="wrap">
+    <div class="head c reveal">
+      <div class="kick">Preguntas frecuentes</div>
+      <h2>Todo lo que te estás preguntando</h2>
+    </div>
+    <div class="faq">
+      <details class="reveal"><summary>¿De verdad es gratis? ¿Dónde está la trampa?</summary><p>Es gratis de verdad: sin pruebas que caducan, sin marca de agua y sin límite de audios. Es mi forma de mostrarte cómo trabajo. Si te gusta, quizás algún día te interese <a href="#editor-rcg">Editor RCG</a>, mi editor de vídeo de pago. Si no, VoiceOFF sigue siendo tuyo igual.</p></details>
+      <details class="reveal"><summary>¿Puedo usar los audios en trabajos para clientes?</summary><p>Sí. Todas las voces tienen licencias abiertas que permiten uso comercial, y la música la genera la propia app, libre de derechos. Dos voces (Sharvard y Daniela) piden mencionar a sus autores; lo tienes explicado en el tutorial incluido.</p></details>
+      <details class="reveal"><summary>¿Necesito internet?</summary><p>No. El paquete trae el motor y una voz listos. Solo necesitas conexión si quieres descargar voces adicionales, y la descarga se reanuda sola si se corta. Después funciona siempre sin conexión.</p></details>
+      <details class="reveal"><summary>¿Qué necesito para usarlo?</summary><p>Una computadora con Windows, Mac o Linux y el navegador Google Chrome o Microsoft Edge. No hay que instalar nada: descomprimes la carpeta y abres <b>VoiceOFF.html</b>.</p></details>
+      <details class="reveal"><summary>¿Suena como una persona real?</summary><p>Son voces neuronales, mucho más naturales que las voces robóticas de siempre. Escucha la <a href="#muestra">muestra real</a> de arriba: está hecha con Daniela, una de las voces de calidad alta, que se descarga gratis desde la propia app.</p></details>
+      <details class="reveal"><summary>¿Lo puedo pasar a otra computadora?</summary><p>Sí. La app tiene un botón para guardar una copia de todas tus voces en una carpeta. Copias esa carpeta a la otra PC, la importas y listo, sin descargar nada otra vez.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ====== DESCARGA ====== -->
+<section id="descargar" class="dl">
+  <div class="wrap">
+    <div class="dlbox reveal">
+      <div class="kick">Descarga gratuita</div>
+      <h2>Empieza a crear locuciones hoy</h2>
+      <p class="sub" style="margin:0 auto">Un .zip con la app, el motor de voz, una voz en español y el tutorial. Descomprime, abre y trabaja sin internet.</p>
+      <div class="ctas">
+        <a class="btn p lg js-descarga-real" href="#">
+          <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>
+          Descargar VoiceOFF (≈ 56 MB)
+        </a>
+        <a class="btn wa lg js-wa-descarga" href="#">
+          <svg class="i" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 4.9L2 22l5.2-1.4c1.4.8 3 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+          Pedir el enlace por WhatsApp
+        </a>
+      </div>
+      <div class="req">
+        <span>✓ Windows · Mac · Linux</span><span>✓ Chrome o Edge</span><span>✓ Sin registro</span><span>✓ Tutorial incluido</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <b style="color:var(--txt)">VoiceOFF Studio</b> · creado por Raúl Cordero García<br>
+      WhatsApp <a class="js-wa" href="#">+53 5 5081288</a> · <a href="mailto:corderorauly@gmail.com">corderorauly@gmail.com</a>
+    </div>
+    <div style="max-width:520px">
+      Voces: proyecto Piper (rhasspy/piper-voices), cada una con su licencia abierta. Motor: ONNX Runtime Web (MIT) y piper-phonemize con eSpeak NG (GPL). MP3: lamejs (LGPL).
+    </div>
+  </div>
+</footer>
+
+<a class="fwa js-wa" href="#" aria-label="Escríbeme por WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.2-.3-.3-.6-.4zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.5 1.3 4.9L2 22l5.2-1.4c1.4.8 3 1.2 4.8 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg></a>
+
+<script>
+(()=>{
+  const C=window.CONFIG||{};
+  const wa=msg=>'https://wa.me/'+(C.whatsapp||'5355081288')+'?text='+encodeURIComponent(msg);
+  const set=(sel,href,blank)=>document.querySelectorAll(sel).forEach(a=>{ a.href=href; if(blank){ a.target='_blank'; a.rel='noopener'; } });
+  set('.js-wa', wa('Hola Raúl, vi la página de VoiceOFF y tengo una pregunta.'), true);
+  set('.js-wa-descarga', wa('Hola Raúl, quiero descargar VoiceOFF gratis. ¿Me pasas el enlace?'), true);
+  set('.js-rcg', C.editorRCG||wa('Hola Raúl, vengo de VoiceOFF y quiero probar Editor RCG 3 días gratis.'), true);
+  if(C.descarga) set('.js-descarga-real', C.descarga, true);
+  else set('.js-descarga-real', wa('Hola Raúl, quiero descargar VoiceOFF gratis. ¿Me pasas el enlace?'), true);
+
+  // reproductor de muestra
+  const bars=document.getElementById('bars'), N=46;
+  for(let i=0;i<N;i++){ const b=document.createElement('i'); b.style.height=(22+Math.abs(Math.sin(i*1.7)*.5+Math.sin(i*.43)*.35)*78)+'%'; bars.appendChild(b); }
+  const au=document.getElementById('demoAudio'), btn=document.getElementById('demoBtn'), ico=document.getElementById('demoIco'), tt=document.getElementById('demoT');
+  const PLAY='<path d="M8 5.5v13l11-6.5z"/>', PAUSE='<rect x="6.5" y="5" width="4" height="14" rx="1"/><rect x="13.5" y="5" width="4" height="14" rx="1"/>';
+  const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+  btn.onclick=()=>{ if(au.paused){ au.play().catch(()=>{}); } else au.pause(); };
+  au.onplay=()=>ico.innerHTML=PAUSE; au.onpause=au.onended=()=>ico.innerHTML=PLAY;
+  au.ontimeupdate=()=>{ const f=au.duration?au.currentTime/au.duration:0; [...bars.children].forEach((b,i)=>b.classList.toggle('on',i/N<f)); tt.textContent=fmt(au.duration?au.duration-au.currentTime:0); };
+  bars.onclick=e=>{ if(!au.duration) return; const r=bars.getBoundingClientRect(); au.currentTime=(e.clientX-r.left)/r.width*au.duration; if(au.paused) au.play().catch(()=>{}); };
+
+  // aparición suave
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); } }),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+})();
+</script>
+</body>
+</html>
